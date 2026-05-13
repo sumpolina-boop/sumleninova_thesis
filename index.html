@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>КОНТУР-ИИ — навигатор внедрения ИИ для fashion-компаний</title>
+  <style>
+    :root{
+      --bg:#f6f0e7;
+      --paper:#fffaf3;
+      --ink:#171412;
+      --muted:#776f66;
+      --line:#e7dacb;
+      --dark:#15120f;
+      --accent:#b66a43;
+      --accent2:#2f5d50;
+      --soft:#efe2d2;
+      --danger:#8b2c2c;
+      --warn:#9b651f;
+      --ok:#2f6b4f;
+      --shadow:0 22px 60px rgba(31,22,13,.12);
+      --radius:28px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter, Arial, sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}
+    a{color:inherit}
+    .wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+    .hero{background:radial-gradient(circle at top left, rgba(182,106,67,.36), transparent 34%), radial-gradient(circle at 82% 5%, rgba(47,93,80,.28), transparent 32%), var(--dark); color:white;overflow:hidden}
+    .nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.03em}
+    .logo-mark{width:36px;height:36px;border-radius:12px;background:white;color:var(--dark);display:grid;place-items:center;font-weight:900}
+    .nav-links{display:flex;gap:16px;font-size:14px;color:rgba(255,255,255,.72)}
+    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:42px;align-items:center;padding:72px 0 86px}
+    .badge{display:inline-flex;gap:9px;align-items:center;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);border-radius:999px;padding:9px 14px;color:rgba(255,255,255,.78);font-size:14px;margin-bottom:22px}
+    h1{font-size:58px;line-height:.98;margin:0 0 24px;letter-spacing:-.04em;max-width:790px}
+    .lead{font-size:20px;color:rgba(255,255,255,.75);max-width:680px;margin:0 0 30px}
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+    .btn{border:0;border-radius:999px;padding:14px 20px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:9px;text-decoration:none;transition:.2s;font-size:15px}
+    .btn.primary{background:white;color:var(--dark)}
+    .btn.dark{background:var(--dark);color:white}
+    .btn.ghost{background:transparent;color:white;border:1px solid rgba(255,255,255,.25)}
+    .btn.soft{background:var(--soft);color:var(--dark)}
+    .btn:hover{transform:translateY(-1px)}
+    .hero-card{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.13);border-radius:34px;padding:26px;box-shadow:var(--shadow);backdrop-filter:blur(18px)}
+    .flow{display:grid;gap:12px}
+    .flow-item{display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:start;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:14px}
+    .num{width:38px;height:38px;border-radius:14px;background:white;color:var(--dark);display:grid;place-items:center;font-weight:900}
+    .flow-title{font-weight:800;margin-bottom:2px}.flow-text{color:rgba(255,255,255,.62);font-size:14px}
+    section{padding:78px 0}.section-head{text-align:center;max-width:820px;margin:0 auto 40px}.kicker{text-transform:uppercase;letter-spacing:.22em;color:var(--muted);font-size:12px;font-weight:900;margin-bottom:12px}.section-head h2{font-size:40px;line-height:1.05;margin:0 0 14px;letter-spacing:-.025em}.section-head p{color:var(--muted);font-size:17px;margin:0}
+    .card{background:rgba(255,250,243,.86);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 12px 30px rgba(31,22,13,.06)}
+    .product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.value-card{padding:24px}.icon{width:50px;height:50px;border-radius:18px;background:var(--dark);color:white;display:grid;place-items:center;font-size:24px;margin-bottom:18px}.value-card h3{margin:0 0 9px;font-size:21px}.value-card p{margin:0;color:var(--muted)}
+    .advisor{display:grid;grid-template-columns:.92fr 1.08fr;gap:22px;align-items:start}.panel{padding:24px;position:sticky;top:18px}.panel h3{margin:0 0 8px;font-size:24px}.panel p{margin:0 0 18px;color:var(--muted)}
+    .scorebox{background:var(--dark);color:white;border-radius:24px;padding:20px;margin:20px 0}.score-row{display:flex;justify-content:space-between;align-items:end;gap:12px}.score{font-size:52px;font-weight:900;letter-spacing:-.05em}.score-label{color:rgba(255,255,255,.68);font-size:14px}.bar{height:12px;background:rgba(255,255,255,.16);border-radius:999px;overflow:hidden;margin-top:14px}.bar-fill{height:100%;width:0;background:linear-gradient(90deg,#e4b68b,#fff);border-radius:999px;transition:.35s}
+    .status{padding:14px;border-radius:18px;background:#fff;border:1px solid var(--line);font-weight:800}.status small{display:block;font-weight:500;color:var(--muted);margin-top:4px}
+    .qblock{padding:24px;margin-bottom:16px}.qtitle{font-size:18px;font-weight:900;margin:0 0 6px}.qhint{color:var(--muted);font-size:14px;margin:0 0 14px}.options{display:grid;gap:10px}.option{display:flex;align-items:center;gap:11px;border:1px solid var(--line);background:white;border-radius:18px;padding:13px 14px;cursor:pointer;transition:.18s}.option:hover{border-color:#c7a98c;transform:translateY(-1px)}.option input{accent-color:var(--dark);width:18px;height:18px}.option b{display:block}.option span{display:block;color:var(--muted);font-size:13px;margin-top:2px}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.chip{border:1px solid var(--line);background:white;color:var(--muted);border-radius:999px;padding:7px 10px;font-size:13px}.chip.active{background:var(--dark);color:white;border-color:var(--dark)}
+    .results{margin-top:24px;display:grid;gap:16px}.empty{padding:30px;text-align:center;color:var(--muted);border:1px dashed #cdbba7;border-radius:24px;background:rgba(255,255,255,.54)}
+    .rec-card{background:white;border:1px solid var(--line);border-radius:26px;overflow:hidden;box-shadow:0 10px 26px rgba(31,22,13,.07)}.rec-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding:22px;background:#fff7ed;border-bottom:1px solid var(--line)}.rec-head h3{margin:0 0 6px;font-size:22px}.rec-head p{margin:0;color:var(--muted)}.tag{white-space:nowrap;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}.tag.high{background:#fde7d7;color:#8a3c18}.tag.medium{background:#f5ecd8;color:#7a551d}.tag.low{background:#e6f1eb;color:#285942}.rec-body{padding:22px}.steps{counter-reset:step;display:grid;gap:12px}.step{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}.step:before{counter-increment:step;content:counter(step);width:34px;height:34px;border-radius:13px;background:var(--dark);color:white;display:grid;place-items:center;font-weight:900}.step b{display:block;margin-bottom:3px}.step p{margin:0;color:var(--muted);font-size:14px}.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.meta div{background:#f8f2eb;border:1px solid var(--line);border-radius:17px;padding:12px}.meta small{display:block;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.1em;font-weight:800}.meta span{display:block;margin-top:5px;font-weight:800;font-size:14px}
+    .roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.road{padding:20px}.road b{font-size:18px}.road ul{margin:12px 0 0;padding-left:20px;color:var(--muted)}
+    .matrix{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.risk-card{padding:22px}.risk-card h3{display:flex;align-items:center;gap:10px;margin:0 0 12px}.risk-card p{margin:0;color:var(--muted)}.risk-list{margin-top:14px;display:grid;gap:10px}.risk-item{background:white;border:1px solid var(--line);border-radius:16px;padding:12px}.risk-item b{display:block}.risk-item span{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+    .footer{background:var(--dark);color:white;padding:46px 0}.footer p{color:rgba(255,255,255,.66);max-width:850px}.print-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    @media(max-width:920px){.hero-grid,.advisor,.matrix{grid-template-columns:1fr}.product-grid,.roadmap{grid-template-columns:1fr 1fr}.panel{position:static}h1{font-size:44px}.section-head h2{font-size:32px}.meta{grid-template-columns:1fr}.nav-links{display:none}}
+    @media(max-width:620px){.product-grid,.roadmap{grid-template-columns:1fr}.hero-grid{padding:42px 0 54px}h1{font-size:36px}.lead{font-size:17px}.rec-head{display:block}.tag{display:inline-block;margin-top:12px}.wrap{padding:0 16px}}
+    @media print{.hero,.nav,.cta,.footer,.btn,.panel .print-actions{display:none!important}body{background:white}.card,.rec-card{box-shadow:none}.advisor,.product-grid,.matrix,.roadmap{display:block}.qblock,.value-card,.road,.risk-card{break-inside:avoid;margin-bottom:12px}section{padding:22px 0}.panel{position:static}.results{display:block}.rec-card{margin-bottom:14px}}
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <nav class="nav">
+        <div class="logo"><div class="logo-mark">К</div><div>КОНТУР-ИИ</div></div>
+        <div class="nav-links"><a href="#advisor">Диагностика</a><a href="#roadmap">План 90 дней</a><a href="#risks">Риски</a></div>
+      </nav>
+      <div class="hero-grid">
+        <div>
+          <div class="badge">✦ продуктовый прототип для fashion-компаний</div>
+          <h1>Навигатор внедрения ИИ под конкретные задачи бренда</h1>
+          <p class="lead">Компания отвечает на вопросы о своей задаче, данных, команде и рисках. Сайт выдает персональные рекомендации: что запускать, что проверить, кто отвечает и какие шаги выполнить.</p>
+          <div class="cta"><a class="btn primary" href="#advisor">Пройти диагностику →</a><a class="btn ghost" href="#how">Как это работает</a></div>
+        </div>
+        <div class="hero-card">
+          <div class="flow">
+            <div class="flow-item"><div class="num">1</div><div><div class="flow-title">Ответьте на вопросы</div><div class="flow-text">цель ИИ, готовность данных, команда, бренд, право</div></div></div>
+            <div class="flow-item"><div class="num">2</div><div><div class="flow-title">Получите маршрут внедрения</div><div class="flow-text">конкретные рекомендации под выбранные задачи компании</div></div></div>
+            <div class="flow-item"><div class="num">3</div><div><div class="flow-title">Сформируйте план действий</div><div class="flow-text">пилот, ответственные, метрики и меры снижения рисков</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head"><div class="kicker">смысл продукта</div><h2>Не общие советы, а рекомендации под ситуацию компании</h2><p>Фреймворк превращает выводы ВКР в управленческий инструмент: он связывает выбранную задачу внедрения с рисками и конкретными шагами.</p></div>
+      <div class="product-grid">
+        <div class="card value-card"><div class="icon">?</div><h3>Сначала вопрос</h3><p>Компания выбирает, зачем ей ИИ: контент, дизайн, спрос, e-commerce, команда или правовая безопасность.</p></div>
+        <div class="card value-card"><div class="icon">→</div><h3>Потом рекомендация</h3><p>Система показывает, какие действия нужны именно для этой задачи, а не для абстрактного внедрения ИИ.</p></div>
+        <div class="card value-card"><div class="icon">✓</div><h3>Затем план</h3><p>Компания получает пилот, ответственных, метрики эффекта и меры снижения рисков на 90 дней.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="advisor" style="padding-top:30px">
+    <div class="wrap">
+      <div class="section-head"><div class="kicker">диагностика</div><h2>Ответьте на вопросы — получите маршрут внедрения</h2><p>Отмечайте варианты, которые соответствуют компании. Рекомендации справа обновляются автоматически.</p></div>
+      <div class="advisor">
+        <div>
+          <div class="card qblock">
+            <p class="qtitle">1. Какая главная задача внедрения ИИ?</p>
+            <p class="qhint">Можно выбрать несколько направлений.</p>
+            <div class="options" data-group="goals">
+              <label class="option"><input type="checkbox" value="content"><div><b>Ускорить создание контента</b><span>описания товаров, посты, рекламные тексты, визуальные референсы</span></div></label>
+              <label class="option"><input type="checkbox" value="design"><div><b>Поддержать дизайн и разработку продукта</b><span>мудборды, эскизы, концепты, цифровая визуализация</span></div></label>
+              <label class="option"><input type="checkbox" value="demand"><div><b>Улучшить прогноз спроса и управление ассортиментом</b><span>остатки, SKU, сезонность, возвраты, закупки</span></div></label>
+              <label class="option"><input type="checkbox" value="personal"><div><b>Персонализировать клиентский опыт</b><span>рекомендации, поиск, CRM, клиентский сервис</span></div></label>
+              <label class="option"><input type="checkbox" value="team"><div><b>Организовать работу команды с ИИ</b><span>роли, обучение, регламенты, снижение сопротивления</span></div></label>
+              <label class="option"><input type="checkbox" value="legal"><div><b>Снизить правовые и информационные риски</b><span>авторские права, конфиденциальные материалы, сервисы</span></div></label>
+            </div>
+          </div>
+
+          <div class="card qblock">
+            <p class="qtitle">2. Какие данные уже есть в компании?</p>
+            <p class="qhint">Это влияет на то, можно ли запускать ИИ сразу или сначала нужен аудит.</p>
+            <div class="options" data-group="data">
+              <label class="option"><input type="checkbox" value="product"><div><b>Товарные данные</b><span>SKU, характеристики, размерные сетки, цены, остатки</span></div></label>
+              <label class="option"><input type="checkbox" value="sales"><div><b>Продажи и возвраты</b><span>история заказов, остатки, возвраты, промо</span></div></label>
+              <label class="option"><input type="checkbox" value="behavior"><div><b>Поведение клиентов</b><span>просмотры, клики, корзины, CRM, повторные покупки</span></div></label>
+              <label class="option"><input type="checkbox" value="visual"><div><b>Визуальные материалы</b><span>фото товаров, лукбуки, кампании, брендовые референсы</span></div></label>
+              <label class="option"><input type="checkbox" value="none"><div><b>Данные не собраны системно</b><span>есть файлы и таблицы, но нет единого контура</span></div></label>
+            </div>
+          </div>
+
+          <div class="card qblock">
+            <p class="qtitle">3. Где будет использоваться результат ИИ?</p>
+            <p class="qhint">Публичное применение требует более строгого контроля бренда и прав.</p>
+            <div class="options" data-group="usecase">
+              <label class="option"><input type="radio" name="usecase" value="internal"><div><b>Только внутри команды</b><span>черновики, идеи, аналитика, референсы</span></div></label>
+              <label class="option"><input type="radio" name="usecase" value="public"><div><b>В публичной коммуникации</b><span>сайт, соцсети, рекламные кампании, карточки товара</span></div></label>
+              <label class="option"><input type="radio" name="usecase" value="product"><div><b>В продуктовых решениях</b><span>дизайн, принты, коллекции, ассортимент</span></div></label>
+            </div>
+          </div>
+
+          <div class="card qblock">
+            <p class="qtitle">4. Какие ограничения есть сейчас?</p>
+            <p class="qhint">Ответы превратятся в блоки риск-плана.</p>
+            <div class="options" data-group="limits">
+              <label class="option"><input type="checkbox" value="noOwner"><div><b>Нет ответственного за ИИ</b><span>разные сотрудники используют сервисы без общей логики</span></div></label>
+              <label class="option"><input type="checkbox" value="noSkills"><div><b>Сотрудники не обучены</b><span>есть страх, сопротивление или неумение формулировать задачи</span></div></label>
+              <label class="option"><input type="checkbox" value="noBrandGuide"><div><b>Нет промпт-гайдлайна бренда</b><span>не закреплены стиль, тон, визуальные запреты и правила проверки</span></div></label>
+              <label class="option"><input type="checkbox" value="noLegal"><div><b>Не проверены лицензии ИИ-сервисов</b><span>неясно, можно ли использовать материалы коммерчески</span></div></label>
+              <label class="option"><input type="checkbox" value="confidential"><div><b>Планируется загрузка закрытых материалов</b><span>коллекции, принты, лекала, контент-планы, цены, клиентские данные</span></div></label>
+              <label class="option"><input type="checkbox" value="onePlatform"><div><b>Есть зависимость от одной платформы</b><span>процесс остановится, если сервис станет недоступен</span></div></label>
+            </div>
+          </div>
+
+          <div class="card qblock">
+            <p class="qtitle">5. Какой масштаб компании?</p>
+            <p class="qhint">От масштаба зависит формат ответственного и пилота.</p>
+            <div class="options" data-group="scale">
+              <label class="option"><input type="radio" name="scale" value="small"><div><b>Малый бренд</b><span>основатель или небольшая команда закрывает много функций</span></div></label>
+              <label class="option"><input type="radio" name="scale" value="medium"><div><b>Средняя компания</b><span>есть отдельные роли: маркетинг, дизайн, e-commerce, аналитика</span></div></label>
+              <label class="option"><input type="radio" name="scale" value="large"><div><b>Крупный ритейлер / сеть</b><span>много SKU, отделы, данные, несколько каналов продаж</span></div></label>
+            </div>
+          </div>
+        </div>
+
+        <aside class="panel card">
+          <h3>Ваш маршрут внедрения</h3>
+          <p>Результат строится по выбранным задачам и ограничениям компании.</p>
+          <div class="scorebox">
+            <div class="score-row"><div><div class="score" id="score">0%</div><div class="score-label">готовность к пилоту</div></div><div id="scoreIcon" style="font-size:34px">○</div></div>
+            <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+          </div>
+          <div class="status" id="statusBox">Выберите задачи внедрения<small>После ответов появятся рекомендации и шаги.</small></div>
+          <div class="chips" id="chips"></div>
+          <div class="print-actions"><button class="btn dark" onclick="window.print()">Сохранить как PDF</button><button class="btn soft" id="resetBtn" type="button">Сбросить</button></div>
+        </aside>
+      </div>
+      <div class="results" id="results"><div class="empty">Пока нет выбранных задач. Отметьте хотя бы одну цель внедрения ИИ.</div></div>
+    </div>
+  </section>
+
+  <section id="roadmap">
+    <div class="wrap">
+      <div class="section-head"><div class="kicker">план внедрения</div><h2>Базовая дорожная карта на 90 дней</h2><p>После диагностики компания использует этот план как основу пилота. Конкретные задачи уточняются в рекомендациях выше.</p></div>
+      <div class="roadmap">
+        <div class="card road"><b>0–14 дней</b><ul><li>выбрать бизнес-задачу</li><li>назначить ответственного</li><li>провести аудит данных и сервисов</li></ul></div>
+        <div class="card road"><b>15–30 дней</b><ul><li>сделать регламент ИИ</li><li>создать промпт-гайдлайн</li><li>обучить команду на тестовых задачах</li></ul></div>
+        <div class="card road"><b>31–60 дней</b><ul><li>запустить пилот</li><li>проверять результат человеком</li><li>фиксировать правки и ошибки</li></ul></div>
+        <div class="card road"><b>61–90 дней</b><ul><li>измерить эффект</li><li>обновить правила</li><li>решить, масштабировать ли решение</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="risks">
+    <div class="wrap">
+      <div class="section-head"><div class="kicker">контроль рисков</div><h2>Риск-план привязан к задачам компании</h2><p>Сайт не просто показывает риски, а связывает их с действиями, ответственными и критериями проверки.</p></div>
+      <div class="matrix">
+        <div class="card risk-card"><h3>⚠️ Высокий приоритет</h3><p>Эти риски нужно закрыть до запуска публичного или продуктового применения ИИ.</p><div class="risk-list"><div class="risk-item"><b>Данные</b><span>аудит, очистка, единые правила хранения</span></div><div class="risk-item"><b>Дескиллинг</b><span>обучение, финальная проверка человеком, ручные контрольные задачи</span></div><div class="risk-item"><b>Авторские права</b><span>проверка лицензий и условий коммерческого использования</span></div></div></div>
+        <div class="card risk-card"><h3>🧭 Управляемый запуск</h3><p>Для пилота выбирается узкая зона, где результат можно быстро проверить и безопасно откатить.</p><div class="risk-list"><div class="risk-item"><b>Контент</b><span>тест на 10–20 карточках или одной кампании</span></div><div class="risk-item"><b>Дизайн</b><span>только мудборды, референсы и черновая визуализация</span></div><div class="risk-item"><b>Прогноз спроса</b><span>одна категория или одна сезонная группа товаров</span></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="logo"><div class="logo-mark">К</div><div>КОНТУР-ИИ</div></div>
+      <p>Веб-прототип управленческого инструмента для оценки готовности модной компании к внедрению ИИ и формирования первичного плана действий. Используется как наглядная разработка к параграфу 3.3 ВКР.</p>
+    </div>
+  </footer>
+
+<script>
+const goalRecs = {
+  content: {
+    title: 'Маршрут: ИИ для контента и маркетинга', priority: 'high', level:'Высокий приоритет',
+    desc:'Подходит, если компания хочет быстрее готовить описания товаров, посты, рекламные идеи, визуальные референсы и материалы для сайта.',
+    steps:[
+      ['Опишите текущий контент-процесс','Зафиксируйте, сколько времени уходит на карточки товара, посты, визуалы, согласования и правки.'],
+      ['Создайте промпт-гайдлайн бренда','Включите тон коммуникации, визуальные запреты, примеры удачных и неудачных запросов, требования к фактуре, цветам и стилистике.'],
+      ['Запустите пилот на ограниченном объеме','Например: 20 карточек товара, 10 постов или одна рекламная кампания. Не используйте ИИ сразу во всех каналах.'],
+      ['Введите финальную проверку человеком','Контент-менеджер или бренд-менеджер проверяет смысл, стиль, правдивость, визуальное качество и соответствие бренд-коду.'],
+      ['Оцените эффект','Сравните время подготовки, количество правок, вовлеченность, конверсию и долю материалов, которые прошли проверку без переделок.']
+    ], owner:'маркетолог / бренд-менеджер', metric:'скорость подготовки, количество правок, engagement, конверсия', risk:'шаблонизация, потеря бренд-кода, авторские права'
+  },
+  design: {
+    title:'Маршрут: ИИ для дизайна и разработки продукта', priority:'medium', level:'Требует контроля',
+    desc:'Подходит для мудбордов, поиска референсов, черновой визуализации и быстрых концептов. Финальный дизайн остается за человеком.',
+    steps:[
+      ['Определите допустимую роль ИИ','Закрепите, что ИИ используется для референсов, вариантов формы, цвета и настроения, но не как источник финального изделия.'],
+      ['Соберите безопасную базу референсов','Используйте собственные архивы бренда, прошлые коллекции, разрешенные изображения и внутренние материалы.'],
+      ['Проведите пилот на одном мини-проекте','Например: мудборд капсулы, 3 варианта принта, визуализация одной модели в разных цветах.'],
+      ['Проверьте оригинальность и применимость','Дизайнер оценивает, нет ли копирования чужих элементов, визуальной грубости, неуместного культурного кода.'],
+      ['Зафиксируйте границы масштабирования','Решите, какие этапы можно ускорять ИИ, а какие остаются ручной зоной дизайнера.']
+    ], owner:'дизайнер / креативный руководитель', metric:'скорость предпродакшна, число идей, доля применимых концептов', risk:'утрата авторства, дескиллинг, копирование чужих решений'
+  },
+  demand: {
+    title:'Маршрут: ИИ для прогноза спроса и ассортимента', priority:'high', level:'Высокий приоритет',
+    desc:'Подходит компаниям с большим количеством SKU, сезонностью, остатками, возвратами и сложной товарной матрицей.',
+    steps:[
+      ['Проведите аудит данных по SKU','Проверьте продажи, остатки, размеры, цвета, возвраты, промо, сезонность и каналы продаж.'],
+      ['Очистите и свяжите данные','Уберите дубли, пропуски, устаревшие карточки и несогласованные названия категорий.'],
+      ['Выберите одну категорию для пилота','Например: верхняя одежда, базовый трикотаж, купальники, детская одежда или аксессуары.'],
+      ['Сравните прогноз ИИ с текущим планированием','Оцените точность прогноза, остатки, дефицит, возвраты и скорость принятия решений.'],
+      ['Настройте цикл пересмотра','Обновляйте модель после промо, сезонных скачков, изменения трендов и выхода новой коллекции.']
+    ], owner:'мерчандайзер / аналитик / категорийный менеджер', metric:'точность прогноза, остатки, дефицит, возвраты', risk:'низкое качество данных, неверный прогноз, управленческие ошибки'
+  },
+  personal: {
+    title:'Маршрут: ИИ для персонализации и e-commerce', priority:'medium', level:'Требует данных',
+    desc:'Подходит для рекомендаций, визуального поиска, CRM-коммуникации, клиентского сервиса и подбора образов.',
+    steps:[
+      ['Проверьте качество карточек товара','Для рекомендаций нужны атрибуты: цвет, материал, стиль, посадка, размер, сезон, сценарий использования.'],
+      ['Свяжите поведенческие данные с товарными','Объедините просмотры, клики, корзины, покупки, возвраты и повторные покупки.'],
+      ['Запустите пилот в одной точке пути клиента','Например: блок похожих товаров, подбор образа, чат-помощник или персональная рассылка.'],
+      ['Проверьте объяснимость рекомендаций','Клиенту и команде должно быть понятно, почему система предлагает конкретную вещь.'],
+      ['Оцените клиентский эффект','Смотрите CTR, конверсию, средний чек, возвраты, обращения в поддержку и качество клиентского опыта.']
+    ], owner:'e-commerce / CRM / продуктовый аналитик', metric:'CTR, конверсия, средний чек, возвраты, NPS/обращения', risk:'нерелевантные рекомендации, смещения, ухудшение клиентского опыта'
+  },
+  team: {
+    title:'Маршрут: организационная настройка ИИ', priority:'high', level:'Базовое условие',
+    desc:'Нужен, если сотрудники используют ИИ хаотично или боятся, что технология заменит их работу.',
+    steps:[
+      ['Назначьте AI-owner','Это может быть бренд-менеджер, маркетолог, руководитель направления или межфункциональная группа.'],
+      ['Опишите роли в процессе','Кто ставит задачу, кто пишет запрос, кто проверяет результат, кто отвечает за публикацию или внедрение.'],
+      ['Проведите короткое обучение по ролям','Дизайнерам — про референсы и контроль авторства; маркетингу — про промпты и стиль; аналитикам — про данные.'],
+      ['Сделайте безопасные тестовые задания','Пусть сотрудники используют ИИ на внутренних черновиках, где ошибка не вредит бренду.'],
+      ['Закрепите правило человеческого решения','ИИ предлагает варианты, но финальную интерпретацию и ответственность сохраняет специалист.']
+    ], owner:'топ-менеджмент / HR / руководители функций', metric:'доля обученных сотрудников, число ошибок, уровень сопротивления', risk:'сопротивление, дескиллинг, отсутствие ответственности'
+  },
+  legal: {
+    title:'Маршрут: право, безопасность и защита активов', priority:'high', level:'Высокий приоритет',
+    desc:'Нужен до публичного использования ИИ-контента и до загрузки коммерчески чувствительных материалов во внешние сервисы.',
+    steps:[
+      ['Проведите аудит ИИ-сервисов','Проверьте условия коммерческого использования, права на результат и правила обработки загружаемых данных.'],
+      ['Разделите данные по уровням доступа','Публичные, внутренние, конфиденциальные, коммерческая тайна: для каждого уровня задайте правила загрузки.'],
+      ['Запретите загрузку закрытых материалов во внешние сервисы','К ним относятся неопубликованные коллекции, принты, лекала, контент-планы, цены, клиентские данные.'],
+      ['Создайте журнал ИИ-материалов','Фиксируйте, какой сервис использовался, кто создал материал, где он опубликован и кто утвердил.'],
+      ['Подготовьте резервный сценарий','Для критичных процессов должны быть альтернативные сервисы или ручное выполнение.']
+    ], owner:'юрист / ИТ / AI-owner', metric:'наличие аудита, перечень запрещенных данных, журнал материалов', risk:'утечка данных, нарушение авторских прав, зависимость от платформ'
+  }
+};
+const extraRules = {
+  noOwner:{title:'Сначала назначить владельца ИИ-процесса', desc:'Без ответственного рекомендации не будут работать: некому проверять качество, права, данные и эффект.', steps:[['Выберите AI-owner','Для малого бренда — основатель или бренд-менеджер; для средней компании — руководитель направления; для крупной — межфункциональная группа.'],['Закрепите полномочия','AI-owner утверждает пилот, правила, сервисы, метрики и формат отчетности.']], owner:'топ-менеджмент', metric:'назначен ответственный и зона ответственности', risk:'размытая ответственность'},
+  noSkills:{title:'Добавить обучение перед пилотом', desc:'Если команда не понимает, как применять ИИ, внедрение вызовет сопротивление и рост ошибок.', steps:[['Проведите воркшоп 1–2 часа','Покажите 3–5 рабочих сценариев именно для их роли.'],['Дайте тестовое задание','Например: сделать черновик описания, собрать мудборд, сгруппировать отзывы.']], owner:'HR / руководитель направления', metric:'доля обученных сотрудников', risk:'сопротивление и дескиллинг'},
+  noBrandGuide:{title:'Разработать промпт-гайдлайн бренда', desc:'Если нет правил стиля, ИИ-контент быстро становится шаблонным и визуально чужим.', steps:[['Опишите ДНК бренда','Тон, цвет, эстетика, визуальные запреты, референсы и антипримеры.'],['Сделайте библиотеку промптов','Для карточек товара, рекламных идей, визуалов, мудбордов и постов.']], owner:'бренд-менеджер / креативный руководитель', metric:'доля материалов, прошедших проверку', risk:'шаблонизация и размывание идентичности'},
+  noLegal:{title:'Проверить лицензии и условия сервисов', desc:'Публичная кампания или коммерческий визуал без правовой проверки создает риск претензий.', steps:[['Составьте список сервисов','Какие инструменты используются для текста, изображения, видео, аналитики.'],['Проверьте коммерческие условия','Можно ли публиковать результат, кто владеет правами, используются ли загруженные данные для обучения.']], owner:'юрист / AI-owner', metric:'готовый реестр разрешенных сервисов', risk:'авторские права'},
+  confidential:{title:'Ввести правила для закрытых материалов', desc:'Нельзя загружать в обычные ИИ-сервисы неопубликованные коллекции, лекала, принты, клиентские данные и планы.', steps:[['Классифицируйте данные','Публичные, внутренние, конфиденциальные, коммерческая тайна.'],['Выберите безопасный формат работы','Закрытый корпоративный доступ, локальная модель или ручная обработка без загрузки внешним сервисам.']], owner:'ИТ / юрист / бренд-менеджер', metric:'список запрещенных к загрузке данных', risk:'утечка нематериальных активов'},
+  onePlatform:{title:'Снизить зависимость от одной платформы', desc:'Если весь процесс держится на одном сервисе, компания уязвима к блокировкам, росту цены и падению качества.', steps:[['Найдите 2 альтернативы','Для каждого ключевого сценария: текст, изображения, аналитика, видео.'],['Опишите ручной резерв','Как выполнить задачу без ИИ, если сервис недоступен.']], owner:'AI-owner / ИТ', metric:'наличие альтернатив и резервного сценария', risk:'платформенная зависимость'}
+};
+function getSelected(group){return [...document.querySelectorAll(`[data-group="${group}"] input:checked`)].map(i=>i.value)}
+function getRadio(name){const el=document.querySelector(`input[name="${name}"]:checked`);return el?el.value:null}
+function priorityClass(p){return p==='high'?'high':p==='medium'?'medium':'low'}
+function renderRec(rec, source){
+  return `<article class="rec-card"><div class="rec-head"><div><h3>${rec.title}</h3><p>${rec.desc}</p></div><span class="tag ${priorityClass(rec.priority||'medium')}">${rec.level||'Рекомендация'}</span></div><div class="rec-body"><div class="steps">${rec.steps.map(s=>`<div class="step"><div><b>${s[0]}</b><p>${s[1]}</p></div></div>`).join('')}</div><div class="meta"><div><small>ответственный</small><span>${rec.owner}</span></div><div><small>метрика</small><span>${rec.metric}</span></div><div><small>закрывает риск</small><span>${rec.risk}</span></div></div></div></article>`
+}
+function update(){
+  const goals=getSelected('goals');
+  const data=getSelected('data');
+  const limits=getSelected('limits');
+  const usecase=getRadio('usecase');
+  const scale=getRadio('scale');
+  let base=0;
+  if(goals.length) base+=18;
+  if(data.length && !data.includes('none')) base+=18;
+  if(data.includes('product') && (goals.includes('content')||goals.includes('personal'))) base+=7;
+  if(data.includes('sales') && goals.includes('demand')) base+=10;
+  if(data.includes('visual') && (goals.includes('content')||goals.includes('design'))) base+=7;
+  if(data.includes('behavior') && goals.includes('personal')) base+=10;
+  if(usecase) base+=10;
+  if(scale) base+=8;
+  const penalties={noOwner:14,noSkills:10,noBrandGuide:8,noLegal:9,confidential:8,onePlatform:5};
+  let penalty=limits.reduce((a,l)=>a+(penalties[l]||0),0);
+  let score=Math.max(0,Math.min(100,base+30-penalty));
+  if(!goals.length) score=0;
+  document.getElementById('score').textContent=score+'%';
+  document.getElementById('barFill').style.width=score+'%';
+  let status='';let small='';let icon='○';
+  if(!goals.length){status='Выберите задачи внедрения';small='После ответов появятся рекомендации и шаги.';icon='○'}
+  else if(score<45){status='Сначала подготовка, затем пилот';small='Нужно закрыть базовые пробелы: данные, ответственность, правила и обучение.';icon='!'}
+  else if(score<72){status='Можно запускать ограниченный пилот';small='Запуск допустим в узкой зоне с ручной проверкой и контролем рисков.';icon='◐'}
+  else{status='Компания готова к контролируемому внедрению';small='Можно запускать пилот и готовить масштабирование по результатам.';icon='✓'}
+  document.getElementById('scoreIcon').textContent=icon;
+  document.getElementById('statusBox').innerHTML=status+`<small>${small}</small>`;
+  const chips=[];
+  goals.forEach(g=>chips.push(goalRecs[g].title.replace('Маршрут: ','')));
+  if(usecase==='public') chips.push('публичный контент');
+  if(usecase==='product') chips.push('продуктовые решения');
+  if(data.includes('none')) chips.push('сначала данные');
+  limits.forEach(l=>chips.push(extraRules[l]?.title.replace('Сначала ','').replace('Добавить ','')||l));
+  document.getElementById('chips').innerHTML=chips.map(c=>`<span class="chip active">${c}</span>`).join('');
+  const recs=[];
+  goals.forEach(g=>recs.push(goalRecs[g]));
+  if(data.includes('none')) recs.unshift({title:'Подготовительный маршрут: собрать контур данных', priority:'high', level:'Сначала сделать', desc:'Так как данные не собраны системно, полноценное внедрение ИИ нужно начинать не с сервиса, а с подготовки источников.', steps:[['Составьте карту данных','Где лежат товарные карточки, фото, продажи, остатки, возвраты, отзывы и клиентские данные.'],['Уберите хаос в названиях и форматах','Приведите категории, цвета, размеры, SKU и названия файлов к единому формату.'],['Определите владельцев данных','Кто обновляет товарные данные, кто отвечает за продажи, кто за контент и визуалы.'],['Выберите один процесс для первого пилота','Не запускайте ИИ во всех задачах до базовой очистки данных.']], owner:'аналитик / AI-owner', metric:'полнота данных, доля заполненных карточек, количество дублей', risk:'низкое качество данных'});
+  limits.forEach(l=>{ if(extraRules[l]) recs.push(extraRules[l]) });
+  if(usecase==='public') recs.push({title:'Дополнительный контроль для публичного ИИ-контента', priority:'high', level:'Обязательно', desc:'Публичный контент влияет на доверие аудитории и восприятие бренда, поэтому требует отдельного фильтра.', steps:[['Ввести двухэтапное согласование','Сначала проверка смысла и фактов, затем проверка визуального и тонального соответствия бренду.'],['Маркировать ИИ-контент при необходимости','Если формат требует прозрачности, указывать роль ИИ и подчеркивать участие человека.'],['Не публиковать сырой результат','Любой текст, изображение или видео должны проходить редактуру и финальное утверждение.']], owner:'PR / маркетинг / бренд-менеджер', metric:'количество отклоненных материалов, реакция аудитории', risk:'потеря доверия аудитории'});
+  if(usecase==='product') recs.push({title:'Дополнительный контроль для продуктовых решений', priority:'high', level:'Обязательно', desc:'Если ИИ влияет на дизайн, принты или ассортимент, нужна усиленная проверка авторства, качества и коммерческой применимости.', steps:[['Не использовать ИИ как финального автора','ИИ может давать варианты, но дизайнер и продуктовая команда принимают финальное решение.'],['Проверить оригинальность','Отсеять решения, похожие на чужие коллекции, принты или визуальные коды.'],['Сравнить с коммерческой логикой','Проверить, подходит ли идея аудитории, производству, маржинальности и ассортиментной стратегии.']], owner:'дизайнер / продуктовая команда / юрист', metric:'доля применимых концептов, количество правок, юридическая проверка', risk:'нарушение авторских прав и потеря идентичности'});
+  document.getElementById('results').innerHTML = recs.length ? recs.map(renderRec).join('') : '<div class="empty">Пока нет выбранных задач. Отметьте хотя бы одну цель внедрения ИИ.</div>';
+}
+document.querySelectorAll('input').forEach(i=>i.addEventListener('change',update));
+document.getElementById('resetBtn').addEventListener('click',()=>{document.querySelectorAll('input').forEach(i=>i.checked=false);update();window.scrollTo({top:document.getElementById('advisor').offsetTop-20,behavior:'smooth'})});
+update();
+</script>
+</body>
+</html>
